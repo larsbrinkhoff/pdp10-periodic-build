@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        include:
+          - target: tops503
+            emulator: pdp10-ka
+            os: ubuntu-18.04
+          - target: tops603
+            emulator: pdp10-ka
+            os: ubuntu-18.04
+          - target: tops603
+            emulator: pdp10-ki
+            os: ubuntu-18.04
+          - target: tops603
+            emulator: pdp10-kv
+            os: ubuntu-18.04
+          - target: tops603
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+          - target: tops703
+            emulator: pdp10
+            os: ubuntu-18.04
+          - target: tops703
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+          - target: tops703
+            emulator: pdp10-ks
+            os: ubuntu-18.04
+          - target: tops704
+            emulator: pdp10
+            os: ubuntu-18.04
+          - target: tops704
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+          - target: tops704
+            emulator: pdp10-ks
+            os: ubuntu-18.04
+          - target: t20v3
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+          - target: t20v7
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build emulator
+        run: ./emulator.sh "${{matrix.target}}" "${{matrix.emulator}}"
+      - name: Download target
+        run: ./download.sh "${{matrix.target}}" "${{matrix.emulator}}"
+      - name: Build target
+        run: ./build.sh "${{matrix.target}}" "${{matrix.emulator}}"
