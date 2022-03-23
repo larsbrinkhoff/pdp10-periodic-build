@@ -14,25 +14,24 @@ esac
 
 cd "$1"
 
-case "$1:$2" in
-    tops503:pdp10-ka)
+case "$1:$2:$3" in
+    tops503:pdp10-ka:)
         pdp10-ka setup.ini ;;
-    tops603:pdp10-ka)
-        pdp10-ka load.ini ka dp ;;
-    tops603:pdp10-ki)
-        pdp10-ki load.ini ki dp ;;
-    tops603:pdp10-kv)
-        pdp10-ki load.ini kv dp ;;
-    tops603:pdp10-kl)
-        pdp10-kl load.ini kl rp ;;
+    tops603:pdp10-ka:*)
+        pdp10-ka load.ini ka "$3" ;;
+    tops603:pdp10-ki:*)
+        pdp10-ki load.ini ki "$3" ;;
+    tops603:pdp10-kv:*)
+        pdp10-ki load.ini kv "$3" ;;
+    tops603:pdp10-kl:*)
+        pdp10-kl load.ini kl "$3" ;;
     tops703:*|tops704:*)
         "$2" load.ini ;;
-    t20v3:pdp10-kl)
-        "$2" load_a.ini
-        "$2" load_b.ini ;;
-    t20v7:pdp10-kl)
+    t20v3:pdp10-kl:*)
+        "$2" load_"$3".ini ;;
+    t20v7:pdp10-kl:)
         "$2" load.ini ;;
     *)
-        echo "Unknown build: $1 running on $2."
+        echo "Unknown build: $1 running on $2, variant $3."
         exit 1;;
 esac

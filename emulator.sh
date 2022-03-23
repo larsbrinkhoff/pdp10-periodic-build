@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -ex
-E="$2"
+E="$1"
 case "$E" in
     pdp10-ka|pdp10-ki|pdp10-kl|pdp10-ks)
         git clone https://github.com/rcornwell/sims ;;

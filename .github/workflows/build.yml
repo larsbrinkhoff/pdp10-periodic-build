@@ -13,6 +13,7 @@ defaults:
 jobs:
   build:
     runs-on: ${{matrix.os}}
+    timeout-minutes: 200
     strategy:
       matrix:
         include:
@@ -22,15 +23,35 @@ jobs:
           - target: tops603
             emulator: pdp10-ka
             os: ubuntu-18.04
+            variant: dp
+          - target: tops603
+            emulator: pdp10-ka
+            os: ubuntu-18.04
+            variant: rp
           - target: tops603
             emulator: pdp10-ki
             os: ubuntu-18.04
+            variant: dp
+          - target: tops603
+            emulator: pdp10-ki
+            os: ubuntu-18.04
+            variant: rp
           - target: tops603
             emulator: pdp10-kv
             os: ubuntu-18.04
+            variant: dp
+          - target: tops603
+            emulator: pdp10-kv
+            os: ubuntu-18.04
+            variant: rp
           - target: tops603
             emulator: pdp10-kl
             os: ubuntu-18.04
+            variant: dp
+          - target: tops603
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+            variant: rp
           - target: tops703
             emulator: pdp10
             os: ubuntu-18.04
@@ -52,14 +73,19 @@ jobs:
           - target: t20v3
             emulator: pdp10-kl
             os: ubuntu-18.04
+            variant: a
+          - target: t20v3
+            emulator: pdp10-kl
+            os: ubuntu-18.04
+            variant: b
           - target: t20v7
             emulator: pdp10-kl
             os: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: Build emulator
-        run: ./emulator.sh "${{matrix.target}}" "${{matrix.emulator}}"
+        run: ./emulator.sh "${{matrix.emulator}}"
       - name: Download target
-        run: ./download.sh "${{matrix.target}}" "${{matrix.emulator}}"
+        run: ./download.sh "${{matrix.target}}"
       - name: Build target
-        run: ./build.sh "${{matrix.target}}" "${{matrix.emulator}}"
+        run: ./build.sh "${{matrix.target}}" "${{matrix.emulator}}" "${{matrix.variant}}"
